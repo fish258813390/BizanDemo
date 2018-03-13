@@ -1,7 +1,11 @@
 package neil.com.bizandemo.mvp.presenter.app;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
 import neil.com.bizandemo.base.BaseSubscriber;
 import neil.com.bizandemo.base.RxPresenter;
 import neil.com.bizandemo.bean.app.Splash;
@@ -45,8 +49,17 @@ public class SplashPresenter extends RxPresenter<SplashContract.View> implements
         addSubscribe(subscriber);
     }
 
+    /**
+     * 5s 倒计时
+     */
     @Override
     public void setCountDown() {
-
+        Long count = 5L;
+        Disposable subscribe = Flowable.interval(0, 1, TimeUnit.SECONDS)
+                .map(aLong -> count - aLong)
+                .take(count + 1)
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribe(aLong -> mView.showCountDown(aLong.intValue()));
+        addSubscribe(subscribe);
     }
 }
