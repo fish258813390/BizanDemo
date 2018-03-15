@@ -29,7 +29,7 @@
         <!-- 网络状态监听服务 -->
         <service android:name=".backgrservice.NetworkService"/>
 
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".ui.home.MainActivity"/>
 
     </application>
 

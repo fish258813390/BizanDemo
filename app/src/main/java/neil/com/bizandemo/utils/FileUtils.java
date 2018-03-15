@@ -1,7 +1,11 @@
 package neil.com.bizandemo.utils;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Environment;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * 文件工具类
@@ -24,6 +28,26 @@ public class FileUtils {
         }
         return cacheRootPath;
     }
+
+    /**
+     * 打开Asset下的文件
+     *
+     * @param context
+     * @param fileName
+     * @return
+     */
+    public static InputStream openAssetFile(Context context, String fileName) {
+        AssetManager am = context.getAssets();
+        InputStream is = null;
+        try {
+            is = am.open(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return is;
+    }
+
+
 
     /**
      * 判断是否有SD卡

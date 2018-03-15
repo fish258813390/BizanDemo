@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light"/>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light" />
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
@@ -17,5 +17,13 @@
         <item name="android:windowBackground">@color/window_background</item>
 
     </style>
+
+
+    <!-- 圆形头像 -->
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
 
 </resources>

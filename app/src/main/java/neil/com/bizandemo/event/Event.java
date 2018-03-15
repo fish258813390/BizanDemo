@@ -16,4 +16,12 @@ public class Event {
     }
 
 
+    /**
+     * 抽屉开启
+     */
+    public static class StartNavigationEvent {
+        public boolean start;
+    }
+
+
 }

@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import neil.com.bizandemo.AppApplication;
-import neil.com.bizandemo.MainActivity;
+import neil.com.bizandemo.ui.home.MainActivity;
 import neil.com.bizandemo.R;
 import neil.com.bizandemo.bean.app.Splash;
 import neil.com.bizandemo.di.component.DaggerActivityComponent;

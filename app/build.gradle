@@ -59,4 +59,10 @@ dependencies {
     // glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
+    // 搜索框
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    // Flycotablayout
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    // BaseRecyclerViewAdapterHelper
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.16'
 }
