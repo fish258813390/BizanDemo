@@ -44,12 +44,13 @@ public class SectionedRVAdapter extends RecyclerView.Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder viewHolder = null;
         mContext = parent.getContext();
+        // 遍历 块和标识对应的关系 根据tag 获取每个块;
         for (Map.Entry<String, Integer> entry : sectionViewTypeNumbers.entrySet()) {
             if (viewType >= entry.getValue() && viewType < entry.getValue() + VIEW_TYPE_QTY) {
                 Section section = sections.get(entry.getKey());
                 //设置section 的 context
                 section.mContext = mContext;
-                int sectionViewType = viewType - entry.getValue();
+                int sectionViewType = viewType - entry.getValue(); // 获取块的值, VIEW_TYPE_QTY,根据值获取对应的viewHolder
                 switch (sectionViewType) {
                     case VIEW_TYPE_HEADER: {
                         viewHolder = getHeaderViewHolder(parent, section);
@@ -217,8 +218,7 @@ public class SectionedRVAdapter extends RecyclerView.Adapter<ViewHolder> {
                 }
 
                 // delegate the binding to the section content
-                getSectionForPosition(position).onBindContentViewHolder(holder,
-                        getPositionInSection(position));
+                getSectionForPosition(position).onBindContentViewHolder(holder, getPositionInSection(position));
                 return;
             }
 

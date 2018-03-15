@@ -13,15 +13,22 @@ import neil.com.bizandemo.widget.section.StatelessSection;
 import neil.com.bizandemo.widget.section.ViewHolder;
 
 /**
- * @author zzq  作者 E-mail:   soleilyoyiyi@gmail.com
- * @date 创建时间：2017/5/26 21:59
- * 描述:
+ * fragment 分区item 下的viewHolder
+ * item 活动中心
+ *
+ * @author neil
+ * @date 2018/3/14
  */
 public class RegionActivityCenterSection extends StatelessSection {
 
     private List<Region.BodyBean> mList;
 
     public RegionActivityCenterSection(List<Region.BodyBean> list) {
+        /**
+         * 参数一：headerResourceId viewholder头部
+         * 参数二：footerResourceId  viewholder底部
+         * 参数三：itemResourceId viewholder布局
+         */
         super(R.layout.layout_item_home_region_head, R.layout.layout_item_home_region_activity_center, R.layout.layout_empty);
         this.mList = list;
     }
@@ -38,8 +45,7 @@ public class RegionActivityCenterSection extends StatelessSection {
         RecyclerView recyclerView = holder.getView(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,
-                StaggeredGridLayoutManager.HORIZONTAL);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new RegionActivityCenterAdapter(mList));
     }

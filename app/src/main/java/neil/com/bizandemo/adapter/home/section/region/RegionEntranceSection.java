@@ -15,16 +15,19 @@ import neil.com.bizandemo.widget.section.StatelessSection;
 import neil.com.bizandemo.widget.section.ViewHolder;
 
 /**
+ * 地区header
+ * 其实是recyclerview的一个header
+ *
  * @author neil
  * @date 2018/3/14
  */
-
 public class RegionEntranceSection extends StatelessSection {
 
     private List<RegionEnter> mList;
     private List<RegionTagType> mRegionTypeList;
 
     public RegionEntranceSection(List<RegionTagType> regionTypeList) {
+        // headerResourceId | itemResourceId
         super(R.layout.layout_item_home_region_entrance, R.layout.layout_empty);
         this.mRegionTypeList = regionTypeList;
         init();
@@ -50,6 +53,11 @@ public class RegionEntranceSection extends StatelessSection {
                 new RegionEnter("游戏中心", R.mipmap.ic_category_game_center));
     }
 
+    /**
+     * 绑定viewholder
+     *
+     * @param holder ViewHolder for the Header of this Section
+     */
     @Override
     public void onBindHeaderViewHolder(ViewHolder holder) {
         RecyclerView recyclerView = holder.getView(R.id.recycler);
@@ -59,4 +67,5 @@ public class RegionEntranceSection extends StatelessSection {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new RegionEntranceAdapter(mList, mRegionTypeList));
     }
+
 }

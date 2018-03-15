@@ -20,6 +20,7 @@ import neil.com.bizandemo.bean.region.Region;
  */
 
 public class RegionActivityCenterAdapter extends BaseQuickAdapter<Region.BodyBean, BaseViewHolder> {
+
     public RegionActivityCenterAdapter(@Nullable List<Region.BodyBean> data) {
         super(R.layout.item_home_region_activity_center, data);
     }

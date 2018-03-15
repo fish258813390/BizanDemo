@@ -12,6 +12,8 @@ import java.util.List;
 import neil.com.bizandemo.R;
 import neil.com.bizandemo.adapter.home.section.region.RegionActivityCenterSection;
 import neil.com.bizandemo.adapter.home.section.region.RegionEntranceSection;
+import neil.com.bizandemo.adapter.home.section.region.RegionSection;
+import neil.com.bizandemo.adapter.home.section.region.RegionTopicSection;
 import neil.com.bizandemo.base.BaseRefreshFragment;
 import neil.com.bizandemo.bean.region.Region;
 import neil.com.bizandemo.bean.region.RegionTagType;
@@ -21,7 +23,7 @@ import neil.com.bizandemo.utils.LogUtils;
 import neil.com.bizandemo.widget.section.SectionedRVAdapter;
 
 /**
- * 分区
+ * 分区fragment
  *
  * @author neil
  * @date 2018/3/14
@@ -97,11 +99,11 @@ public class RegionFragment extends BaseRefreshFragment<RegionPresenter, Region>
             String type = region.type;
             LogUtils.d(TAG, "region---->" + type);
             if ("topic".equals(type)) { //话题
-//                mSectionedAdapter.addSection(new RegionTopicSection(region.body.get(0)));
+                mSectionedAdapter.addSection(new RegionTopicSection(region.body.get(0)));
             } else if ("activity".equals(type)) {//活动中心
                 mSectionedAdapter.addSection(new RegionActivityCenterSection(region.body));
-            } else {//分区和番剧区
-//                mSectionedAdapter.addSection(new RegionSection(region.title, region.body));
+            } else { //分区和番剧区
+                mSectionedAdapter.addSection(new RegionSection(region.title, region.body));
             }
         }
         mSectionedAdapter.notifyDataSetChanged();
