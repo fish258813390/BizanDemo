@@ -3,12 +3,16 @@ package neil.com.bizandemo.mvp.presenter.bangumi;
 import org.reactivestreams.Publisher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.functions.Function;
+import io.reactivex.internal.subscribers.BlockingSubscriber;
+import neil.com.bizandemo.base.BaseSubscriber;
 import neil.com.bizandemo.base.RxPresenter;
 import neil.com.bizandemo.bean.bangumi.BangumiDetail;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailComment;
@@ -38,9 +42,47 @@ public class BangumiDetailPresenter extends RxPresenter<BangumiDetailContract.Vi
         List<MulBangumiDetail> mulBangumiDetails = new ArrayList<>();
         StringBuilder title = new StringBuilder();
 
-        mRetrofitHelper.getBangumiDetail()
-                .compose(RxUtils.handleResult());
+        BaseSubscriber<List<MulBangumiDetail>> subscriber = mRetrofitHelper.getBangumiDetail()
+                .compose(RxUtils.handleResult())
+                .flatMap(new Function<BangumiDetail, Flowable<HttpResponse<BangumiDetailRecommend>>>() {
+                    @Override
+                    public Flowable<HttpResponse<BangumiDetailRecommend>> apply(BangumiDetail bangumiDetail) throws Exception {
+                        title.append(bangumiDetail.title);
+                        List<BangumiDetail.EpisodesBean> episodes = bangumiDetail.episodes;
+                        Collections.reverse(episodes);
+                        mulBangumiDetails.addAll(Arrays.asList(
+                                new MulBangumiDetail().
+                                        setItemType(MulBangumiDetail.TYPE_HEAD) // 头部
+                                        .setPlayCount(bangumiDetail.play_count)
+                                        .setCover(bangumiDetail.cover)
+                                        .setFavorites(bangumiDetail.favorites)
+                                        .setIsFinish(bangumiDetail.is_finish)
 
+                        ));
+                        return mRetrofitHelper.getBangumiDetailRecommend();
+                    }
+                })
+                .compose(RxUtils.handleResult())
+                .flatMap(new Function<BangumiDetailRecommend, Flowable<HttpResponse<BangumiDetailComment>>>() {
+                    @Override
+                    public Flowable<HttpResponse<BangumiDetailComment>> apply(BangumiDetailRecommend bangumiDetailRecommend) throws Exception {
+                        return mRetrofitHelper.getBangumiDetailComment();
+                    }
+                })
+                .map(new Function<HttpResponse<BangumiDetailComment>, List<MulBangumiDetail>>() {
+                    @Override
+                    public List<MulBangumiDetail> apply(HttpResponse<BangumiDetailComment> bangumiDetailCommentHttpResponse) throws Exception {
+                        return null;
+                    }
+                })
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseSubscriber<List<MulBangumiDetail>>(mView) {
+                    @Override
+                    public void onSuccess(List<MulBangumiDetail> mulBangumiDetails) {
+
+                    }
+                });
+        addSubscribe(subscriber);
 
     }
 }

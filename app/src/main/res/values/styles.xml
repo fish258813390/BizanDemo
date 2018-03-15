@@ -26,4 +26,9 @@
     </declare-styleable>
 
 
+    <!--设置toolbar字体大小-->
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

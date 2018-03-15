@@ -5,6 +5,7 @@ import java.util.List;
 import io.reactivex.Flowable;
 import neil.com.bizandemo.bean.app.Splash;
 import neil.com.bizandemo.bean.bangumi.BangumiDetail;
+import neil.com.bizandemo.bean.bangumi.BangumiDetailComment;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailRecommend;
 import neil.com.bizandemo.bean.region.Region;
 import neil.com.bizandemo.network.constants.AppServiceConstant;
@@ -38,10 +39,15 @@ public interface AppService {
     Flowable<HttpResponse<BangumiDetail>> getBangumiDetail();
 
     /**
-     * 番剧详情番剧推荐
+     * 番剧详情 更多推荐
      */
     @GET(AppServiceConstant.BANGUMI_DETAIL_RECOMMEND)
     Flowable<HttpResponse<BangumiDetailRecommend>> getBangumiDetailRecommend();
 
+    /**
+     * 番剧详情 评论
+     */
+    @GET(AppServiceConstant.BANGUMI_DETAIL_COMMENT)
+    Flowable<HttpResponse<BangumiDetailComment>> getBangumiDetailComment();
 
 }

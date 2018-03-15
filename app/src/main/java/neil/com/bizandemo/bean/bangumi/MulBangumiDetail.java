@@ -36,29 +36,29 @@ public class MulBangumiDetail implements MultiItemEntity {
 
     public int totalBpCount;
     public int weekBpCount;
-    public static final int TYPE_HEAD = 1;
+    public static final int TYPE_HEAD = 1;  // 头部信息
 
-    public static final int TYPE_SEASON = 2;
+    public static final int TYPE_SEASON = 2; // 分季
 
-    public static final int TYPE_EPISODE_ITEM = 3;
+    public static final int TYPE_EPISODE_ITEM = 3; // 分集头部
 
-    public static final int TYPE_EPISODE_HEAD = 4;
+    public static final int TYPE_EPISODE_HEAD = 4; // 承包
 
     public static final int TYPE_CONTRACTED = 5;
 
-    public static final int TYPE_DES = 6;
+    public static final int TYPE_DES = 6; // 简介
 
-    public static final int TYPE_RECOMMEND_HEAD = 7;
+    public static final int TYPE_RECOMMEND_HEAD = 7;  // 推荐头部
 
-    public static final int TYPE_RECOMMEND_ITEM = 8;
+    public static final int TYPE_RECOMMEND_ITEM = 8; // 推荐item
 
-    public static final int TYPE_COMMENT_HEAD = 9;
+    public static final int TYPE_COMMENT_HEAD = 9; // 评论头部
 
-    public static final int TYPE_COMMENT_HOT_ITEM = 10;
+    public static final int TYPE_COMMENT_HOT_ITEM = 10; // 热门评论
 
-    public static final int TYPE_COMMENT_MORE = 11;
+    public static final int TYPE_COMMENT_MORE = 11; // 更多评论
 
-    public static final int TYPE_COMMENT_NOMAL_ITEM = 12;
+    public static final int TYPE_COMMENT_NOMAL_ITEM = 12; // 评论
 
     public MulBangumiDetail setItemType(int itemType) {
         this.itemType = itemType;

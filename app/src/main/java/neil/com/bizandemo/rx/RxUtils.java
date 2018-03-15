@@ -98,10 +98,12 @@ public class RxUtils {
         return httpResponseFlowable ->
                 httpResponseFlowable.flatMap((Function<HttpResponse<T>, Flowable<T>>) httpResponse -> {
                     if (httpResponse.code == 0) {
-                        if (httpResponse.data != null)
+                        if (httpResponse.data != null){
                             return createData(httpResponse.data);
-                        if (httpResponse.result != null)
+                        }
+                        if (httpResponse.result != null){
                             return createData(httpResponse.result);
+                        }
                         return Flowable.error(new ApiException("服务器返回error"));
                     } else {
                         return Flowable.error(new ApiException("服务器返回error"));

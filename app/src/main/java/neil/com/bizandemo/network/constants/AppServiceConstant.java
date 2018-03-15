@@ -26,8 +26,14 @@ public interface AppServiceConstant {
 
 
     /**
-     * 番剧详情推荐
+     * 番剧详情  更多推荐
      */
     String BANGUMI_DETAIL_RECOMMEND = "api/season/recommend/rnd/6066.json?appkey=1d8b6e7d45233436&build=505000&mobi_app=android&platform=android&ts=1497169314&sign=da4d668fe4aaf97de55541f8d05ac57f";
+
+    /**
+     * 番剧详情  更多推荐下面的评论
+     */
+    String BANGUMI_DETAIL_COMMENT = "x/v2/reply?access_key=ccfbb1b10ce8ab8418a2e00b9ca9a3a0&appkey=1d8b6e7d45233436&build=505000&mobi_app=" +
+            "android&oid=9716141&plat=2&platform=android&pn=1&ps=20&sort=0&ts=1497169314&type=1&sign=ecca925ba55cecd151b5839f19d57657";
 
 }
