@@ -8,14 +8,18 @@ import java.util.List;
 import io.reactivex.subscribers.ResourceSubscriber;
 import neil.com.bizandemo.network.exception.ApiException;
 import neil.com.bizandemo.network.response.HttpResponse;
+import neil.com.bizandemo.utils.AppUtils;
 import neil.com.bizandemo.utils.LogUtils;
+import neil.com.bizandemo.utils.NetworkUtils;
 import retrofit2.HttpException;
 
 /**
+ * 统一处理订阅者
+ * 数据结果集为集合对象时,进行预包装
+ *
  * @author neil
  * @date 2018/3/13
  */
-
 public abstract class BaseListSubscriber<T> extends ResourceSubscriber<HttpResponse<List<T>>> {
 
     private BaseContract.BaseView mView;
@@ -28,7 +32,11 @@ public abstract class BaseListSubscriber<T> extends ResourceSubscriber<HttpRespo
     @Override
     protected void onStart() {
         super.onStart();
-        // 网络判断
+        if (!NetworkUtils.isConnected(AppUtils.getAppContext())) {
+            // 没有网络
+        } else {
+
+        }
     }
 
     @Override

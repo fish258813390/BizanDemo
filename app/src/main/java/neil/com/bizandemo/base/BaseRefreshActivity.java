@@ -14,11 +14,11 @@ import neil.com.bizandemo.widget.ProgressWheel;
 
 /**
  * 基础刷新Activity
+ * 继承的子类可能含有SwipeRefreshLayout 或没有,在initRefreshLayout初始化时做区分
  *
  * @author neil
  * @date 2018/3/13
  */
-
 public abstract class BaseRefreshActivity<T extends BaseContract.BasePresenter, K> extends BaseActivity<T> implements SwipeRefreshLayout.OnRefreshListener {
     protected RecyclerView mRecycler;
     protected SwipeRefreshLayout mRefresh;
@@ -54,7 +54,7 @@ public abstract class BaseRefreshActivity<T extends BaseContract.BasePresenter, 
             public void run() {
 
             }
-        }, 600);
+        }, 650);
         if (mIsRefreshing) {
             if (mList != null) {
                 mList.clear();
@@ -71,8 +71,7 @@ public abstract class BaseRefreshActivity<T extends BaseContract.BasePresenter, 
     public void initWidget() {
         mRefresh = ButterKnife.findById(this, R.id.refresh);
         mRecycler = ButterKnife.findById(this, R.id.recycler);
-        // 加载框
-        mLoading = ButterKnife.findById(this, R.id.pw_loading);
+        mLoading = ButterKnife.findById(this, R.id.pw_loading); // 加载框
         initRefreshLayout();
         initRecyclerView();
     }
@@ -99,7 +98,7 @@ public abstract class BaseRefreshActivity<T extends BaseContract.BasePresenter, 
                     public void run() {
                         loadData();
                     }
-                }, 600);
+                }, 650);
             } else {
                 super.initDatas();
             }

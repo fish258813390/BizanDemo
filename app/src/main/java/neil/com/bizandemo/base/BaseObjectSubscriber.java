@@ -7,7 +7,9 @@ import java.net.SocketTimeoutException;
 import io.reactivex.subscribers.ResourceSubscriber;
 import neil.com.bizandemo.network.exception.ApiException;
 import neil.com.bizandemo.network.response.HttpResponse;
+import neil.com.bizandemo.utils.AppUtils;
 import neil.com.bizandemo.utils.LogUtils;
+import neil.com.bizandemo.utils.NetworkUtils;
 import retrofit2.HttpException;
 
 /**
@@ -34,7 +36,11 @@ public abstract class BaseObjectSubscriber<T> extends ResourceSubscriber<HttpRes
     @Override
     protected void onStart() {
         super.onStart();
-        // 网络判断
+        if (!NetworkUtils.isConnected(AppUtils.getAppContext())) {
+            // 没有网络
+        } else {
+
+        }
     }
 
     @Override

@@ -53,16 +53,16 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
         setContentView(getLayoutId());
         mContext = this;
         ButterKnife.bind(this);
-        mToolbar = ButterKnife.findById(this, R.id.toolbar);
+        mToolbar = ButterKnife.findById(this, R.id.toolbar); // 获取toolbar,如果没有即为null
         mError = ButterKnife.findById(this, R.id.cl_error);
-        initStatusBar();
-        initInject();
-        initPresenter();
-        initVariables();
-        AppApplication.getInstance().addActivity(this);
+        initStatusBar(); // 状态栏初始化
+        initInject(); // 依赖注入
+        initPresenter(); // 初始化presenter,绑定view
+        initVariables(); // 初始化一些基本数据
+        AppApplication.getInstance().addActivity(this);  // 将Activity 添加到栈中去管理
         if (mToolbar != null) {
             initToolbar();  // 初始化Toolbar
-            setSupportActionBar(mToolbar);
+            setSupportActionBar(mToolbar); // toolbar代替Actionbar
             if (mBack) {
                 mToolbar.setNavigationOnClickListener(
                         v -> finish()
@@ -70,8 +70,8 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
             }
         }
 
-        initWidget();
-        initDatas();
+        initWidget(); // 初始化一些空间
+        initDatas(); // 初始化数据
         initExit();
     }
 
@@ -86,16 +86,23 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
                 .build();
     }
 
+    /**
+     * 当异常返回时,显示错误页面
+     * @param msg
+     */
     @Override
     public void showError(String msg) {
-        if(mError != null){
+        if (mError != null) {
             visible(mError);
         }
     }
 
+    /**
+     * 当加载成功时
+     */
     @Override
     public void complete() {
-        if(mError != null){
+        if (mError != null) {
             gone(mError);
         }
     }
@@ -186,6 +193,7 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
 
     /**
      * 显示视图
+     *
      * @param views
      */
     protected void visible(View... views) {

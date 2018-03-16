@@ -43,6 +43,10 @@ public class RxPresenter<T extends BaseContract.BaseView> implements BaseContrac
         return mCompositeDisposable != null && mCompositeDisposable.remove(disposable);
     }
 
+    /**
+     * 添加发射源
+     * @param disposable
+     */
     protected void addSubscribe(Disposable disposable) {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();

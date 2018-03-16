@@ -76,7 +76,7 @@ public abstract class BaseRefreshFragment<T extends BaseContract.BasePresenter, 
                     mRefresh.setRefreshing(false);
                 }
             }
-        }, 600);
+        }, 650);
         if (mIsRefreshing) {
             if (mList != null) {
                 mList.clear();

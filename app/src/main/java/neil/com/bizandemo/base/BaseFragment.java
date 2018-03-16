@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import neil.com.bizandemo.AppApplication;
+import neil.com.bizandemo.R;
 import neil.com.bizandemo.di.component.DaggerFragmentComponent;
 import neil.com.bizandemo.di.component.FragmentComponent;
 import neil.com.bizandemo.di.module.FragmentModule;
@@ -72,7 +73,7 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         initInject();
         initPresenter();
         initVariables();
-//        mError = ButterKnife.findById(mRootView, R.id.cl_error);
+        mError = ButterKnife.findById(mRootView, R.id.cl_error);
         initWidget();
         finishCreateView(savedInstanceState);
         initDatas();
