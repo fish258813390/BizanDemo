@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -14,9 +12,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
 import java.util.Random;
 
-import neil.com.bizandemo.AppApplication;
 import neil.com.bizandemo.R;
 import neil.com.bizandemo.bean.region.Region;
+import neil.com.bizandemo.ui.bangumi.BangumiDetailActivity;
 import neil.com.bizandemo.utils.AppUtils;
 import neil.com.bizandemo.utils.NumberUtils;
 import neil.com.bizandemo.utils.ToastUtils;
@@ -88,7 +86,8 @@ public class RegionSection extends StatelessSection<Region.BodyBean> {
                     (int) AppUtils.getDimension(R.dimen.dp5));
         }
         holder.itemView.setOnClickListener(view ->
-                ToastUtils.showCenterSingleLongToast("点击--->" + position)
+//                ToastUtils.showCenterSingleLongToast("点击--->" + position)
+                mContext.startActivity(new Intent(mContext, BangumiDetailActivity.class))
         );
     }
 

@@ -7,7 +7,11 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import neil.com.bizandemo.di.qualifier.AppUrl;
+import neil.com.bizandemo.di.scope.ApiUrl;
+import neil.com.bizandemo.di.scope.BangumiUrl;
+import neil.com.bizandemo.network.api.ApiService;
 import neil.com.bizandemo.network.api.AppService;
+import neil.com.bizandemo.network.api.BangumiService;
 import neil.com.bizandemo.network.helper.OkHttpHelper;
 import neil.com.bizandemo.network.helper.RetrofitHelper;
 import neil.com.bizandemo.network.support.ApiConstants;
@@ -45,8 +49,8 @@ public class ApiModule {
 
     @Singleton
     @Provides
-    public RetrofitHelper provideRetrofitHelper(AppService appService) {
-        return new RetrofitHelper(appService);
+    public RetrofitHelper provideRetrofitHelper(AppService appService, BangumiService bangumiService, ApiService apiService) {
+        return new RetrofitHelper(appService, bangumiService, apiService);
     }
 
     @Singleton
@@ -62,5 +66,31 @@ public class ApiModule {
         return retrofit.create(AppService.class);
     }
 
+    @Singleton
+    @Provides
+    @BangumiUrl
+    public Retrofit provideBangumiRetrofit(Retrofit.Builder builder, OkHttpClient client) {
+        return createRetrofit(builder, client, ApiConstants.BANGUMI_BASE_URL);
+    }
+
+    @Singleton
+    @Provides
+    public BangumiService provideBangumiService(@BangumiUrl Retrofit retrofit) {
+        return retrofit.create(BangumiService.class);
+    }
+
+    //
+    @Singleton
+    @Provides
+    @ApiUrl
+    public Retrofit provideApiRetrofit(Retrofit.Builder builder, OkHttpClient client) {
+        return createRetrofit(builder, client, ApiConstants.API_BASE_URL);
+    }
+
+    @Singleton
+    @Provides
+    public ApiService provideApiService(@ApiUrl Retrofit retrofit) {
+        return retrofit.create(ApiService.class);
+    }
 
 }

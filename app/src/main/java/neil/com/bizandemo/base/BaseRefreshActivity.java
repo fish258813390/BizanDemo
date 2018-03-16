@@ -90,6 +90,7 @@ public abstract class BaseRefreshActivity<T extends BaseContract.BasePresenter, 
 
     @Override
     protected void initDatas() {
+        // 如果activity 中没有swipRereshlayout ,根据有无对话框进行初始化数据
         if (mRefresh == null) {
             if (mLoading != null) {
                 visible(mLoading);
@@ -98,10 +99,11 @@ public abstract class BaseRefreshActivity<T extends BaseContract.BasePresenter, 
                     public void run() {
                         loadData();
                     }
-                }, 500);
+                }, 600);
+            } else {
+                super.initDatas();
             }
         }
-        super.initDatas();
     }
 
 }

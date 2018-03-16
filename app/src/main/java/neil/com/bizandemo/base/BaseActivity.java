@@ -53,8 +53,8 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
         setContentView(getLayoutId());
         mContext = this;
         ButterKnife.bind(this);
-//        mToolbar = ButterKnife.findById(this, R.id.toolbar);
-//        mError = ButterKnife.findById(this, R.id.cl_error);
+        mToolbar = ButterKnife.findById(this, R.id.toolbar);
+        mError = ButterKnife.findById(this, R.id.cl_error);
         initStatusBar();
         initInject();
         initPresenter();

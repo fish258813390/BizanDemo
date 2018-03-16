@@ -1,37 +1,32 @@
 package neil.com.bizandemo.network.api;
 
-import java.util.List;
-
 import io.reactivex.Flowable;
-import neil.com.bizandemo.bean.app.Splash;
 import neil.com.bizandemo.bean.bangumi.BangumiDetail;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailComment;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailRecommend;
-import neil.com.bizandemo.bean.region.Region;
 import neil.com.bizandemo.network.constants.AppServiceConstant;
 import neil.com.bizandemo.network.constants.BangumiServiceConstant;
 import neil.com.bizandemo.network.response.HttpResponse;
 import retrofit2.http.GET;
 
 /**
- * 基础服务类
- * APP_BASE_URL = "http://app.bilibili.com/";
- * @author neil
- * @date 2018/3/13
+ * 番剧服务
+ * BANGUMI_BASE_URL = "https://bangumi.bilibili.com/";
+ * Created by neil on 2018/3/16 0016.
  */
-public interface AppService {
+public interface BangumiService {
 
     /**
-     * splash界面
+     * 番剧详情
      */
-    @GET(AppServiceConstant.APP_SPLASH)
-    Flowable<Splash> getSplash();
+    @GET(BangumiServiceConstant.BANGUMI_DETAIL)
+    Flowable<HttpResponse<BangumiDetail>> getBangumiDetail();
 
     /**
-     * 首页 fragment分区列表下的分类item
+     * 番剧详情 更多推荐
      */
-    @GET(AppServiceConstant.HOME_REGION)
-    Flowable<HttpResponse<List<Region>>> getRegion();
+    @GET(BangumiServiceConstant.BANGUMI_DETAIL_RECOMMEND)
+    Flowable<HttpResponse<BangumiDetailRecommend>> getBangumiDetailRecommend();
 
 
 

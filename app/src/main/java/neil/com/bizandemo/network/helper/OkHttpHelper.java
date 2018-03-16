@@ -57,9 +57,10 @@ public class OkHttpHelper {
                 .connectTimeout(DEFAULT_CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
 //                .cache()  // 设置缓存
 //                .retryOnConnectionFailure(true) // 失败重发
-                .addNetworkInterceptor(mRewriteCacheControlInterceptor)
-                .addInterceptor(mRewriteCacheControlInterceptor)
-                .addInterceptor(loggingInterceptor) //http数据log，日志中打印出HTTP请求&响应数据
+//                .addNetworkInterceptor(mRewriteCacheControlInterceptor)
+//                .addInterceptor(mRewriteCacheControlInterceptor)
+//                .addInterceptor(loggingInterceptor) //http数据log，日志中打印出HTTP请求&响应数据
+                .addInterceptor(mLoggingInterceptor) //http数据log，日志中打印出HTTP请求&响应数据
                 .addInterceptor(new UserAgentInterceptor())
                 .build();
 
@@ -153,7 +154,7 @@ public class OkHttpHelper {
             for (int i = 0; i < headers.size(); i++) {
                 String headerName = headers.name(i);
                 String headerValue = headers.get(headerName);
-//                LogUtils.e(TAG, "Header----------->Name:" + headerName + "------------>Value:" + headerValue + "\n");
+                LogUtils.e(TAG, "Header----------->Name:" + headerName + "------------>Value:" + headerValue + "\n");
             }
             RequestBody requestBody = request.body();
             if (requestBody instanceof FormBody) {

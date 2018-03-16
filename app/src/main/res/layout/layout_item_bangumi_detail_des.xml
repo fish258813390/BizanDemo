@@ -37,7 +37,7 @@
             android:id="@+id/tv_online"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dp4"
+            android:layout_marginRight="@dimen/dp10"
             android:gravity="center_vertical"
             android:text="xxxx"
             android:textSize="@dimen/text_size_12"
@@ -67,12 +67,12 @@
         android:textSize="@dimen/text_size_14"
         app:layout_constraintTop_toBottomOf="@+id/cl_type_root" />
 
-    <!--<com.yoyiyi.soleil.widget.flowlayout.TagFlowLayout-->
-        <!--android:id="@id/tags_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="@dimen/dp10"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/tv_des" />-->
+    <neil.com.bizandemo.widget.flowlayout.TagFlowLayout
+        android:id="@id/tags_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp10"
+        app:layout_constraintTop_toBottomOf="@+id/tv_des" />
 
     <View
         android:layout_width="match_parent"

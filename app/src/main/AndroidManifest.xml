@@ -29,7 +29,10 @@
         <!-- 网络状态监听服务 -->
         <service android:name=".backgrservice.NetworkService"/>
 
+        <!-- 主页 -->
         <activity android:name=".ui.home.MainActivity"/>
+        <!-- 番剧详情 -->
+        <activity android:name=".ui.bangumi.BangumiDetailActivity"/>
 
     </application>
 
