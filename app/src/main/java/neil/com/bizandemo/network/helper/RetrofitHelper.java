@@ -7,6 +7,7 @@ import neil.com.bizandemo.bean.app.Splash;
 import neil.com.bizandemo.bean.bangumi.BangumiDetail;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailComment;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailRecommend;
+import neil.com.bizandemo.bean.discover.ActivityCenter;
 import neil.com.bizandemo.bean.region.Region;
 import neil.com.bizandemo.network.api.ApiService;
 import neil.com.bizandemo.network.api.AppService;
@@ -49,8 +50,14 @@ public class RetrofitHelper {
         return mBangumiService.getBangumiDetailRecommend();
     }
 
+
+    /******************************* ApiApi ****************************************/
     public Flowable<BangumiDetailComment> getBangumiDetailComment() {
         return mApiService.getBangumiDetailComment();
+    }
+
+    public Flowable<ActivityCenter> getActivityCenter(int page, int pageSize) {
+        return mApiService.getActivityCenter(page, pageSize);
     }
 
 }

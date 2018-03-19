@@ -23,7 +23,7 @@ public abstract class BaseRefreshActivity<T extends BaseContract.BasePresenter, 
     protected RecyclerView mRecycler;
     protected SwipeRefreshLayout mRefresh;
     protected boolean mIsRefreshing = false;
-    protected List<K> mList = new ArrayList<>();
+    protected List<K> mList = new ArrayList<>(); // 数据源,用于填充Adapter
     private ProgressWheel mLoading;
 
     protected void initRefreshLayout() {
@@ -52,7 +52,9 @@ public abstract class BaseRefreshActivity<T extends BaseContract.BasePresenter, 
         AppUtils.runOnUIDelayed(new Runnable() {
             @Override
             public void run() {
-
+                if (mRefresh != null) {
+                    mRefresh.setRefreshing(false);
+                }
             }
         }, 650);
         if (mIsRefreshing) {
@@ -83,13 +85,18 @@ public abstract class BaseRefreshActivity<T extends BaseContract.BasePresenter, 
 
     }
 
+    /**
+     * 当已经下拉刷新时，将 mIsRefreshing = true
+     */
     protected void clearData() {
-
+        mIsRefreshing = true;
     }
 
+    /**
+     * 如果Activity 中没有SwipRereshlayout ,根据有无对话框进行初始化数据
+     */
     @Override
     protected void initDatas() {
-        // 如果activity 中没有swipRereshlayout ,根据有无对话框进行初始化数据
         if (mRefresh == null) {
             if (mLoading != null) {
                 visible(mLoading);

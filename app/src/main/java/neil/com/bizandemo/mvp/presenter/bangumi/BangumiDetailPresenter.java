@@ -34,6 +34,10 @@ public class BangumiDetailPresenter extends RxPresenter<BangumiDetailContract.Vi
         this.mRetrofitHelper = retrofitHelper;
     }
 
+    /**
+     * 对数据源进行处理
+     * flatMap、map操作符
+     */
     @Override
     public void getBangumiDetailData() {
         List<MulBangumiDetail> mulBangumiDetails = new ArrayList<>();
@@ -45,7 +49,7 @@ public class BangumiDetailPresenter extends RxPresenter<BangumiDetailContract.Vi
                     public Flowable<HttpResponse<BangumiDetailRecommend>> apply(BangumiDetail bangumiDetail) throws Exception {
                         title.append(bangumiDetail.title);
                         List<BangumiDetail.EpisodesBean> episodes = bangumiDetail.episodes;
-                        Collections.reverse(episodes);//反转
+                        Collections.reverse(episodes); // 反转
                         mulBangumiDetails.addAll(Arrays.asList(
                                 new MulBangumiDetail()
                                         .setItemType(MulBangumiDetail.TYPE_HEAD) // 头部

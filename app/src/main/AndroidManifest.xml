@@ -33,6 +33,8 @@
         <activity android:name=".ui.home.MainActivity"/>
         <!-- 番剧详情 -->
         <activity android:name=".ui.bangumi.BangumiDetailActivity"/>
+        <!-- 活动中心 -->
+        <activity android:name=".ui.discover.ActivityCenterActivity"/>
 
     </application>
 

@@ -29,11 +29,13 @@ import neil.com.bizandemo.widget.flowlayout.TagAdapter;
 import neil.com.bizandemo.widget.flowlayout.TagFlowLayout;
 
 /**
+ * 番剧详情 适配器
+ * 包含多个ViewHolder,可展示多个不同的子视图模块，需要设置不同的ViewType
+ * ViewHolder对应的子布局也可以包含RecyclerView,所以存在RecyclerView 嵌套RecyclerView,甚至多个recycler嵌套的情况
  * Created by neil on 2018/3/15 0015.
+ * Updated by neil on 2018/3/17 12:48
  */
-
 public class BangumiDetailAdapter extends BaseMultiItemQuickAdapter<MulBangumiDetail, BaseViewHolder> {
-
 
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
@@ -57,6 +59,12 @@ public class BangumiDetailAdapter extends BaseMultiItemQuickAdapter<MulBangumiDe
         addItemType(MulBangumiDetail.TYPE_COMMENT_NOMAL_ITEM, R.layout.layout_item_bangumi_detail_comment); // 评论
     }
 
+    /**
+     * 根据不同的ViewHolder所对应的ItemType,展示不同的ViewHolder
+     *
+     * @param holder
+     * @param mulBangumiDetail
+     */
     @Override
     protected void convert(BaseViewHolder holder, MulBangumiDetail mulBangumiDetail) {
         switch (mulBangumiDetail.itemType) {

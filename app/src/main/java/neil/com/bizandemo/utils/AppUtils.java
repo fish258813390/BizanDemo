@@ -14,6 +14,7 @@ import java.util.TimerTask;
 
 /**
  * APP工具类
+ * 在全局Application 进行初始化，包含UI线程的handler回调
  * Created by neil on 2016/12/17.
  */
 public class AppUtils {

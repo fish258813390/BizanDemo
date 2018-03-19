@@ -6,20 +6,19 @@ package neil.com.bizandemo.base;
  * @author neil
  * @date 2018/3/13
  */
-
 public interface BaseContract {
 
     interface BaseView {
 
         /**
-         * 请求出错
+         * 请求出错回调
          *
          * @param msg
          */
         void showError(String msg);
 
         /**
-         * 请求完成
+         * 请求完成回调
          */
         void complete();
     }
@@ -27,13 +26,14 @@ public interface BaseContract {
     interface BasePresenter<T> {
 
         /**
-         * 绑定
+         * 绑定View
+         *
          * @param view
          */
         void attachView(T view);
 
         /**
-         * 解绑
+         * 解绑View
          */
         void detachView();
 

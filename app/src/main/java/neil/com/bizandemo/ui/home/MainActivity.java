@@ -1,5 +1,6 @@
 package neil.com.bizandemo.ui.home;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.internal.NavigationMenu;
 import android.support.design.internal.NavigationMenuView;
@@ -23,6 +24,7 @@ import neil.com.bizandemo.R;
 import neil.com.bizandemo.base.BaseActivity;
 import neil.com.bizandemo.event.Event;
 import neil.com.bizandemo.rx.RxBus;
+import neil.com.bizandemo.ui.discover.ActivityCenterActivity;
 import neil.com.bizandemo.utils.AppUtils;
 import neil.com.bizandemo.utils.StatusBarUtil;
 import neil.com.bizandemo.utils.ToastUtils;
@@ -80,8 +82,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        AppUtils.runOnUIDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int itemId = item.getItemId();
+                switch (itemId){
+                    case R.id.item_vip:
+                        startActivity(new Intent(MainActivity.this, ActivityCenterActivity.class));
+                        break;
+                }
+            }
+        },230);
         mDrawerLayout.closeDrawer(GravityCompat.START);
-
         return true;
     }
 

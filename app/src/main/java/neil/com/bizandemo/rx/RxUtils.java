@@ -148,7 +148,12 @@ public class RxUtils {
                 });
     }
 
-
+    /**
+     * 线程转换 及数据流转换,操作后仍可进行流式调用
+     *
+     * @param <T>
+     * @return
+     */
     public static <T> ObservableTransformer<T, T> rxSchedulerHelperOld() {
         //  compose简化线程 统一处理线程
         return new ObservableTransformer<T, T>() {

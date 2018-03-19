@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
@@ -25,14 +26,16 @@ import neil.com.bizandemo.di.module.FragmentModule;
 
 /**
  * 基础Fragment
+ * 基于fragment 懒加载的
  *
  * @author neil
  * @date 2018/3/13
+ * updated by neil on 2018/3/19 将通用的错误布局由约束布局改成相对布局
  */
 public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends RxFragment implements BaseContract.BaseView {
 
     @Inject
-    protected T mPresenter;
+    protected T mPresenter; // 绑定的Presenter实例,进行注入
     protected View mRootView;
     protected Activity mActivity;
     protected LayoutInflater inflater;
@@ -40,8 +43,13 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     protected boolean isPrepared; // 标志位 是否已经初始化完成
     protected boolean isVisible; // 标志位 fragment是否可见
     private Unbinder mUnbinder;
-    public ConstraintLayout mError;
+    public RelativeLayout mError; // 错误布局
 
+    /**
+     * 最先被调用,当fragment显示时,依附在所处的activity
+     *
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         mActivity = (Activity) context;
@@ -66,16 +74,22 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         return mRootView;
     }
 
+    /**
+     * 在onCreateView之后被调用(可以绑定ButterKnife)
+     *
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-        initInject();
+        initInject(); // 注入依赖
         initPresenter();
         initVariables();
-        mError = ButterKnife.findById(mRootView, R.id.cl_error);
+        mError = ButterKnife.findById(mRootView, R.id.cl_error); // 错误布局
         initWidget();
-        finishCreateView(savedInstanceState);
+        finishCreateView(savedInstanceState); // 准备工作完成以后进行framgnet的预加载(懒加载模式)
         initDatas();
     }
 
@@ -160,6 +174,9 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     protected void loadData() {
     }
 
+    /**
+     * 懒加载
+     */
     protected void lazyLoad() {
         // 已经预加载 | 是否可见
         if (!isPrepared || !isVisible) {
@@ -175,6 +192,9 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     protected void lazyLoadData() {
     }
 
+    /**
+     * 当fragment 生命周期结束时,将Presenter和View 进行解绑
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();

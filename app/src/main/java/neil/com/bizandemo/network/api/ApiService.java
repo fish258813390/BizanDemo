@@ -2,8 +2,10 @@ package neil.com.bizandemo.network.api;
 
 import io.reactivex.Flowable;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailComment;
+import neil.com.bizandemo.bean.discover.ActivityCenter;
 import neil.com.bizandemo.network.constants.ApiServiceConstant;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * 公共 service
@@ -18,5 +20,11 @@ public interface ApiService {
     @GET(ApiServiceConstant.BANGUMI_DETAIL_COMMENT)
     Flowable<BangumiDetailComment> getBangumiDetailComment();
 
+    /**
+     * 活动中心
+     */
+    @GET(ApiServiceConstant.ACTIVITY_CENTER)
+    Flowable<ActivityCenter> getActivityCenter(@Query("page") int page,
+                                               @Query("pageSize") int pageSize);
 
 }

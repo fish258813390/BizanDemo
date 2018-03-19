@@ -22,10 +22,20 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
     private BaseContract.BaseView mView;
     private String mMsg;
 
+
+    /**
+     * 和View 进行绑定
+     * @param mView
+     */
     public BaseSubscriber(BaseContract.BaseView mView) {
         this.mView = mView;
     }
 
+    /**
+     * 数据返回 成功回调
+     *
+     * @param t
+     */
     public abstract void onSuccess(T t);
 
     @Override
@@ -68,6 +78,9 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
         }
     }
 
+    /**
+     * 单个事件流接收完成
+     */
     @Override
     public void onComplete() {
 

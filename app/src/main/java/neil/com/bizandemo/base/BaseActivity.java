@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -30,6 +31,7 @@ import neil.com.bizandemo.utils.StatusBarUtil;
  *
  * @author neil
  * @date 2018/3/13
+ * updated by neil on 2018/3/19 将通用的错误布局由约束布局改成相对布局
  */
 public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends RxAppCompatActivity implements BaseContract.BaseView {
 
@@ -38,7 +40,7 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     protected Toolbar mToolbar; // ToolBar
     protected Context mContext; //上下文环境
     protected boolean mBack = true;
-    private ConstraintLayout mError;
+    private RelativeLayout mError;
     private Disposable mDisposable;
 
     /**
@@ -50,11 +52,11 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
+        setContentView(getLayoutId()); // 先设置布局
         mContext = this;
-        ButterKnife.bind(this);
+        ButterKnife.bind(this); // 布局加载完成后，绑定ButterKnife
         mToolbar = ButterKnife.findById(this, R.id.toolbar); // 获取toolbar,如果没有即为null
-        mError = ButterKnife.findById(this, R.id.cl_error);
+        mError = ButterKnife.findById(this, R.id.cl_error);  // 获取公共错误布局,没有则为null
         initStatusBar(); // 状态栏初始化
         initInject(); // 依赖注入
         initPresenter(); // 初始化presenter,绑定view
@@ -79,6 +81,9 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
         return new ActivityModule(this);
     }
 
+    /**
+     * 获取ActivityComponent,对子类需要用到依赖注入,进行依赖注入
+     */
     protected ActivityComponent getActivityComponent() {
         return DaggerActivityComponent.builder()
                 .appComponent(AppApplication.getInstance().getAppComponent())
@@ -88,6 +93,7 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
 
     /**
      * 当异常返回时,显示错误页面
+     *
      * @param msg
      */
     @Override
@@ -104,6 +110,21 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     public void complete() {
         if (mError != null) {
             gone(mError);
+        }
+    }
+
+    /**
+     * Activity销毁时
+     */
+    @Override
+    protected void onDestroy() {
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
+        AppApplication.getInstance().removeActivity(this);
+        super.onDestroy();
+        if (!mDisposable.isDisposed()) { // 按下物理返回退出的订阅事件
+            mDisposable.dispose();
         }
     }
 
@@ -242,5 +263,6 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
         view = this.findViewById(id);
         return view;
     }
+
 
 }

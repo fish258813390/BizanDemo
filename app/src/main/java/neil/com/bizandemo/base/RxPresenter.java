@@ -7,6 +7,7 @@ import neil.com.bizandemo.rx.RxBus;
 
 /**
  * 基于 Rx的Presenter 封装，控制订阅的生命周期
+ * 绑定View、解绑View
  *
  * @author neil
  * @date 2018/3/13
@@ -14,7 +15,7 @@ import neil.com.bizandemo.rx.RxBus;
 public class RxPresenter<T extends BaseContract.BaseView> implements BaseContract.BasePresenter<T> {
 
     protected T mView;
-    private CompositeDisposable mCompositeDisposable;
+    private CompositeDisposable mCompositeDisposable; // 控制事件订阅分发,可以取消单个订阅
 
     @Override
     public void attachView(T view) {
@@ -27,6 +28,9 @@ public class RxPresenter<T extends BaseContract.BaseView> implements BaseContrac
         unSubscribe();
     }
 
+    /**
+     * 取消 订阅
+     */
     private void unSubscribe() {
         if (mCompositeDisposable != null) {
             mCompositeDisposable.dispose();
@@ -34,9 +38,9 @@ public class RxPresenter<T extends BaseContract.BaseView> implements BaseContrac
     }
 
     /**
-     * 删除 订阅
+     * 删除 指定订阅
      *
-     * @param disposable
+     * @param disposable 单个订阅对象(Observable 和 Observer 形成订阅)
      * @return
      */
     protected boolean remove(Disposable disposable) {
@@ -45,6 +49,7 @@ public class RxPresenter<T extends BaseContract.BaseView> implements BaseContrac
 
     /**
      * 添加发射源
+     *
      * @param disposable
      */
     protected void addSubscribe(Disposable disposable) {
