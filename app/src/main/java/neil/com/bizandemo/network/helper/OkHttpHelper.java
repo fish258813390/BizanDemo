@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import neil.com.bizandemo.AppApplication;
 import neil.com.bizandemo.network.support.ApiConstants;
 import neil.com.bizandemo.utils.AppUtils;
 import neil.com.bizandemo.utils.FileUtils;
@@ -50,14 +51,14 @@ public class OkHttpHelper {
     private OkHttpHelper() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);  // 包含header、body数据
-
+        Cache cache = new Cache(new File(AppApplication.getInstance().getCacheDir(),"HttpCache"),1024 * 1024 * 20);
         mOkHttpClient = new OkHttpClient.Builder()
                 .readTimeout(DEFAULT_READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
                 .writeTimeout(DEFAULT_WRITE_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
                 .connectTimeout(DEFAULT_CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
-//                .cache()  // 设置缓存
+                .cache(cache)  // 设置缓存
 //                .retryOnConnectionFailure(true) // 失败重发
-//                .addNetworkInterceptor(mRewriteCacheControlInterceptor)
+                .addNetworkInterceptor(new CacheInterceptor())
 //                .addInterceptor(mRewriteCacheControlInterceptor)
 //                .addInterceptor(loggingInterceptor) //http数据log，日志中打印出HTTP请求&响应数据
                 .addInterceptor(mLoggingInterceptor) //http数据log，日志中打印出HTTP请求&响应数据
@@ -87,7 +88,7 @@ public class OkHttpHelper {
     public void setCache(Context context) {
         File baseDir = context.getApplicationContext().getCacheDir();
         if (baseDir != null) {
-            final File cacheDir = new File(baseDir, "CopyCache");
+            final File cacheDir = new File(baseDir, "HttpCache");
             mOkHttpClient.newBuilder().cache((new Cache(cacheDir, HTTP_RESPONSE_DISK_CACHE_MAX_SIZE)));
         }
     }
@@ -95,11 +96,11 @@ public class OkHttpHelper {
     /**
      * 获取缓存路径
      */
-    private Cache getCache() {
+    public Cache getCache() {
         Cache cache = null;
-        String path = FileUtils.createRootPath(mContext);
+        String path = FileUtils.createRootPath(AppUtils.getAppContext());
         final File baseDir = new File(path);
-        final File cacheDir = new File(baseDir, "CopyCache");
+        final File cacheDir = new File(baseDir, "HttpCache");
         cache = new Cache(cacheDir, HTTP_RESPONSE_DISK_CACHE_MAX_SIZE);
         return cache;
     }
@@ -166,6 +167,7 @@ public class OkHttpHelper {
             }
             long t1 = System.nanoTime();
             okhttp3.Response response = chain.proceed(chain.request());
+            LogUtils.e(TAG,"cacheResponse ---->" + response.cacheResponse());
             okhttp3.MediaType mediaType = response.body().contentType();
             ResponseBody originalBody = response.body();
             if (null != originalBody) {
@@ -199,5 +201,42 @@ public class OkHttpHelper {
         }
         return value;
     }
+
+    /**
+     * 缓存之拦截器  2018/3/29
+     * 这里是考虑服务器不支持缓存时，从而让okhttp支持缓存
+     * 因为拦截器可以拿到Request 和 Response，所以可以轻而易举地加工这些东西，在这里手动添加Cache-Control消息头
+     * 通过OkHttpClient.Builder()中的addNetworkInterceptor()中添加
+     */
+    private class CacheInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            int maxAge = 60 * 1; // 有网络时 设置缓存超时时间1分钟
+            int maxStale = 60 * 60 * 1; // 无网络时，设置超时时间为1个小时
+            Request request = chain.request();
+            // 有网络时只从网络获取
+            if (NetworkUtils.isAvailable(AppApplication.getInstance())) {
+                request = request.newBuilder().cacheControl(CacheControl.FORCE_NETWORK).build();
+            } else {
+                // 无网络时 只从缓存中获取
+                request = request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build();
+            }
+            Response response = chain.proceed(request);
+            // 移除了pragma消息头，移除它的原因是因为pragma也是控制缓存的一个消息头属性
+            if (NetworkUtils.isAvailable(AppApplication.getInstance())) {
+                response = response.newBuilder()
+                        .removeHeader("pragma")
+                        .header("Cache-control", "public, max-age=" + maxAge)
+                        .build();
+            } else {
+                response = response.newBuilder()
+                        .removeHeader("pragma")
+                        .header("Cache-control", "public, only-if-cached, max-stale=" + maxStale)
+                        .build();
+            }
+            return response;
+        }
+    }
+
 
 }
