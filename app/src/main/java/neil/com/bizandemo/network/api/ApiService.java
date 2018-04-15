@@ -1,6 +1,7 @@
 package neil.com.bizandemo.network.api;
 
 import io.reactivex.Flowable;
+import neil.com.bizandemo.bean.app.video.VideoDetailComment;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailComment;
 import neil.com.bizandemo.bean.discover.ActivityCenter;
 import neil.com.bizandemo.network.constants.ApiServiceConstant;
@@ -27,4 +28,9 @@ public interface ApiService {
     Flowable<ActivityCenter> getActivityCenter(@Query("page") int page,
                                                @Query("pageSize") int pageSize);
 
+    /**
+     * 视频评论
+     */
+    @GET(ApiServiceConstant.VIDEO_COMMENT_DETAIL)
+    Flowable<VideoDetailComment> getVideoDetailComment();
 }

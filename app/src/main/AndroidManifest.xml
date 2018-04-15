@@ -35,6 +35,8 @@
         <activity android:name=".ui.bangumi.BangumiDetailActivity"/>
         <!-- 活动中心 -->
         <activity android:name=".ui.discover.ActivityCenterActivity"/>
+        <!-- 视频详情 -->
+        <activity android:name=".ui.app.video.VideoDetailActivity"/>
 
     </application>
 

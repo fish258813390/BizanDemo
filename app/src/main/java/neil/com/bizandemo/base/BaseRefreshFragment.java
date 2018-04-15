@@ -38,7 +38,8 @@ public abstract class BaseRefreshFragment<T extends BaseContract.BasePresenter, 
 
     @Override
     public void onRefresh() {
-
+        clearData();
+        lazyLoadData();
     }
 
     protected void clearData() {

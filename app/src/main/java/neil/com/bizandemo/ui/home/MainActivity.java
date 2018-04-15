@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,11 +25,14 @@ import butterknife.BindView;
 import neil.com.bizandemo.R;
 import neil.com.bizandemo.base.BaseActivity;
 import neil.com.bizandemo.event.Event;
+import neil.com.bizandemo.network.helper.OkHttpHelper;
 import neil.com.bizandemo.rx.RxBus;
 import neil.com.bizandemo.ui.discover.ActivityCenterActivity;
 import neil.com.bizandemo.utils.AppUtils;
+import neil.com.bizandemo.utils.LogUtils;
 import neil.com.bizandemo.utils.StatusBarUtil;
 import neil.com.bizandemo.utils.ToastUtils;
+import okhttp3.Cache;
 
 /**
  * 首页
@@ -77,6 +82,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void initWidget() {
         disableNavigationViewScrollbars(mNavView); // 去掉滚动条
         mNavView.setNavigationItemSelectedListener(this);
+//        ImageView head_iv= (ImageView) mNavView.findViewById(R.id.iv_head_noftiy);
+//        head_iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Cache cache = OkHttpHelper.getInstance().getCache();
+//                try {
+//                    LogUtils.e("cache" + byte2FitMemorySize(cache.size()));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+
         switchFragmentIndex(0);//初始化位置
     }
 
@@ -88,7 +106,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 int itemId = item.getItemId();
                 switch (itemId){
                     case R.id.item_vip:
-                        startActivity(new Intent(MainActivity.this, ActivityCenterActivity.class));
+//                        startActivity(new Intent(MainActivity.this, ActivityCenterActivity.class));
+                        Cache cache = OkHttpHelper.getInstance().getCache();
+                        try {
+                            LogUtils.e("cache" + byte2FitMemorySize(cache.size()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         break;
                 }
             }
@@ -165,6 +189,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Event.ExitEvent event = new Event.ExitEvent();
             event.exit = -1;
             RxBus.getInstance().post(event);
+        }
+    }
+
+    private static String byte2FitMemorySize(final long byteNum) {
+        if (byteNum < 0) {
+            return "shouldn't be less than zero!";
+        } else if (byteNum < 1024) {
+            return String.format("%.3fB", (double) byteNum);
+        } else if (byteNum < 1048576) {
+            return String.format("%.3fKB", (double) byteNum / 1024);
+        } else if (byteNum < 1073741824) {
+            return String.format("%.3fMB", (double) byteNum / 1048576);
+        } else {
+            return String.format("%.3fGB", (double) byteNum / 1073741824);
         }
     }
 }

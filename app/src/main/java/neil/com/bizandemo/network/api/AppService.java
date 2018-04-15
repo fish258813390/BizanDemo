@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import neil.com.bizandemo.bean.app.Splash;
+import neil.com.bizandemo.bean.app.video.VideoDetail;
 import neil.com.bizandemo.bean.bangumi.BangumiDetail;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailComment;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailRecommend;
@@ -33,6 +34,11 @@ public interface AppService {
     @GET(AppServiceConstant.HOME_REGION)
     Flowable<HttpResponse<List<Region>>> getRegion();
 
+    /**
+     * 视频详情
+     */
+    @GET(AppServiceConstant.VIDEO_DETAIL)
+    Flowable<VideoDetail> getVideoDetail();
 
 
 }

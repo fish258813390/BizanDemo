@@ -4,6 +4,8 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import neil.com.bizandemo.bean.app.Splash;
+import neil.com.bizandemo.bean.app.video.VideoDetail;
+import neil.com.bizandemo.bean.app.video.VideoDetailComment;
 import neil.com.bizandemo.bean.bangumi.BangumiDetail;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailComment;
 import neil.com.bizandemo.bean.bangumi.BangumiDetailRecommend;
@@ -39,6 +41,14 @@ public class RetrofitHelper {
 
     public Flowable<HttpResponse<List<Region>>> getRegion() {
         return mAppService.getRegion();
+    }
+
+    public Flowable<VideoDetail> getVideoDetail() {
+        return mAppService.getVideoDetail();
+    }
+
+    public Flowable<VideoDetailComment> getVideoDetailComment() {
+        return mApiService.getVideoDetailComment();
     }
 
     /******************************* BangumiApi ****************************************/

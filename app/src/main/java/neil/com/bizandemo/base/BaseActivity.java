@@ -181,6 +181,12 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     protected void loadData() {
     }
 
+    /**
+     * 完成请求
+     */
+    protected void finishTask() {
+    }
+
     private void initExit() {
         mDisposable = RxBus.getInstance().toDefaultFlowable(
                 Event.ExitEvent.class, exitEvent -> {

@@ -73,7 +73,8 @@ public class ActivityCenterActivity extends BaseRefreshActivity<ActivityCenterPr
         }
     }
 
-    private void finishTask() {
+    @Override
+    protected void finishTask() {
         mAdapter.setNewData(mList);
     }
 

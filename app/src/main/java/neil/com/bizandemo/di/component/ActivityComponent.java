@@ -6,6 +6,7 @@ import dagger.Component;
 import neil.com.bizandemo.di.module.ActivityModule;
 import neil.com.bizandemo.di.scope.ActivityScope;
 import neil.com.bizandemo.ui.app.SplashActivity;
+import neil.com.bizandemo.ui.app.video.VideoDetailActivity;
 import neil.com.bizandemo.ui.bangumi.BangumiDetailActivity;
 import neil.com.bizandemo.ui.discover.ActivityCenterActivity;
 
@@ -23,5 +24,7 @@ public interface ActivityComponent {
     void inject(BangumiDetailActivity bangumiDetailActivity);
 
     void inject(ActivityCenterActivity activityCenterActivity);
+
+    void inject(VideoDetailActivity videoDetailActivity);
 
 }
